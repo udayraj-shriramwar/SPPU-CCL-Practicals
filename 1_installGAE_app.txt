@@ -1,0 +1,995 @@
+1.Install Google App Engine. Create hello world app and other simple web applications using python/java. 
+
+#STEPS
+#1.open google chrome
+#2.search,open Google Cloud SDK installer.exe
+#3.Download the Google Cloud CLI installer OR
+#https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe
+#4.install python installer
+
+
+#5.in cmd - pip install Flask
+
+#open VS code - terminal 
+# CODE Type - mkdir my-flask-app
+cd my-flask-app
+#open 'my-flask-app' folder in vs code
+
+#requirements.txt
+Flask==3.0.0
+gunicorn==21.2.0
+
+#hello.py
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World from Google App Engine!"
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=8080, debug=True)
+
+
+#app.yaml
+runtime: python39
+entrypoint: gunicorn -b :$PORT main:app
+
+instance_class: F1
+
+automatic_scaling:
+  min_instances: 0
+  max_instances: 1
+
+#to run - terminal
+python hello.py
+
+
+
+#addition.py
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def add():
+    a = 10
+    b = 20
+    return f"Addition = {a+b}"
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+#run
+python addition.py
+
+
+#GAE shell
+##Initialize Google Cloud SDK
+gcloud init
+cd "paste_path_here"
+
+#run
+set FLASK_APP=hello.py
+
+set FLASK_ENV=development
+
+python.exe -m pip install --upgrade pip
+
+pip install -r requirements.txt
+(ONLY IF Error RUN)  python.exe -m pip install -r requirements.txt
+
+
+python -m flask run
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#EXPLANATION
+
+## `pip install Flask`
+
+* `pip` → Python package manager used to install libraries.
+* `install` → command to install a package.
+* `Flask` → lightweight Python web framework used to create web applications.
+
+---
+
+# Folder Creation Commands
+
+```bash
+mkdir my-flask-app
+```
+
+* `mkdir` → make directory (create folder).
+* `my-flask-app` → name of the folder.
+
+---
+
+```bash
+cd my-flask-app
+```
+
+* `cd` → change directory.
+* `my-flask-app` → enter inside this folder.
+
+---
+
+# `requirements.txt`
+
+```txt
+Flask==3.0.0
+gunicorn==21.2.0
+```
+
+## Line 1
+
+```txt
+Flask==3.0.0
+```
+
+* `Flask` → Flask framework package.
+* `==` → exact version operator.
+* `3.0.0` → version number.
+
+Meaning:
+Install Flask version 3.0.0 only.
+
+---
+
+## Line 2
+
+```txt
+gunicorn==21.2.0
+```
+
+* `gunicorn` → production web server for Python apps.
+* `==` → exact version.
+* `21.2.0` → version number.
+
+Meaning:
+Install Gunicorn version 21.2.0.
+
+---
+
+# `hello.py`
+
+```python
+from flask import Flask
+```
+
+## Word by Word
+
+* `from` → import specific item from module.
+* `flask` → Flask library/module.
+* `import` → bring code/library into current program.
+* `Flask` → Flask class used to create app.
+
+Meaning:
+Import Flask class from Flask library.
+
+---
+
+```python
+app = Flask(__name__)
+```
+
+## Word by Word
+
+* `app` → variable name storing Flask app object.
+* `=` → assignment operator.
+* `Flask()` → creates Flask application.
+* `__name__` → special Python variable containing current file name/module name.
+
+Meaning:
+Create Flask application object.
+
+---
+
+```python
+@app.route("/")
+```
+
+## Word by Word
+
+* `@` → decorator symbol.
+* `app.route()` → defines URL route/path.
+* `"/"` → home page route.
+
+Meaning:
+When user visits homepage `/`, execute next function.
+
+---
+
+```python
+def hello():
+```
+
+## Word by Word
+
+* `def` → define function.
+* `hello` → function name.
+* `()` → function parameters (none here).
+* `:` → start of function block.
+
+Meaning:
+Create function named `hello`.
+
+---
+
+```python
+return "Hello World from Google App Engine!"
+```
+
+## Word by Word
+
+* `return` → send output back.
+* `"Hello World from Google App Engine!"` → string displayed in browser.
+
+Meaning:
+Browser shows this message.
+
+---
+
+```python
+if __name__ == "__main__":
+```
+
+## Word by Word
+
+* `if` → condition statement.
+* `__name__` → current module name.
+* `==` → comparison operator.
+* `"__main__"` → means file is running directly.
+
+Meaning:
+Run below code only if file executed directly.
+
+---
+
+```python
+app.run(host="127.0.0.1", port=8080, debug=True)
+```
+
+## Word by Word
+
+* `app.run()` → starts Flask server.
+* `host="127.0.0.1"` → localhost IP address.
+* `port=8080` → application runs on port 8080.
+* `debug=True` → enables debug mode for error checking.
+
+Meaning:
+Start local web server.
+
+---
+
+# `app.yaml`
+
+```yaml
+runtime: python39
+```
+
+## Word by Word
+
+* `runtime` → specifies programming environment.
+* `python39` → Python 3.9 runtime.
+
+Meaning:
+Use Python 3.9 on Google App Engine.
+
+---
+
+```yaml
+entrypoint: gunicorn -b :$PORT main:app
+```
+
+## Word by Word
+
+* `entrypoint` → startup command for app.
+* `gunicorn` → web server.
+* `-b` → bind option.
+* `:$PORT` → use system-assigned port.
+* `main:app` → file name `main.py` and Flask object `app`.
+
+Meaning:
+Start application using Gunicorn server.
+
+---
+
+```yaml
+instance_class: F1
+```
+
+* `instance_class` → server machine type.
+* `F1` → free/basic instance type.
+
+Meaning:
+Use small free instance.
+
+---
+
+```yaml
+automatic_scaling:
+```
+
+* `automatic_scaling` → automatically manage instances.
+
+---
+
+```yaml
+min_instances: 0
+```
+
+* `min_instances` → minimum running servers.
+* `0` → no server kept active always.
+
+---
+
+```yaml
+max_instances: 1
+```
+
+* `max_instances` → maximum running servers.
+* `1` → only one instance allowed.
+
+---
+
+# Run Command
+
+```bash
+python hello.py
+```
+
+* `python` → Python interpreter.
+* `hello.py` → file to execute.
+
+Meaning:
+Run Flask application.
+
+---
+
+# `addition.py`
+
+```python
+from flask import Flask
+```
+
+Same meaning as above.
+
+---
+
+```python
+app = Flask(__name__)
+```
+
+Creates Flask app.
+
+---
+
+```python
+@app.route("/")
+```
+
+Home route.
+
+---
+
+```python
+def add():
+```
+
+* `add` → function name.
+
+---
+
+```python
+a = 10
+```
+
+* `a` → variable.
+* `=` → assignment.
+* `10` → integer value.
+
+Meaning:
+Store 10 in variable `a`.
+
+---
+
+```python
+b = 20
+```
+
+Store 20 in variable `b`.
+
+---
+
+```python
+return f"Addition = {a+b}"
+```
+
+## Word by Word
+
+* `return` → send output.
+* `f""` → formatted string.
+* `{a+b}` → calculate addition.
+
+Meaning:
+Display result of addition.
+
+Output:
+
+```txt
+Addition = 30
+```
+
+---
+
+```python
+if __name__ == "__main__":
+```
+
+Run directly condition.
+
+---
+
+```python
+app.run(debug=True)
+```
+
+* `debug=True` → debug mode enabled.
+
+---
+
+# Google Cloud SDK Commands
+
+```bash
+gcloud init
+```
+
+## Word by Word
+
+* `gcloud` → Google Cloud command line tool.
+* `init` → initialize configuration.
+
+Meaning:
+Setup Google Cloud account and project.
+
+---
+
+```bash
+set FLASK_APP=hello.py
+```
+
+## Word by Word
+
+* `set` → create environment variable.
+* `FLASK_APP` → Flask application variable.
+* `hello.py` → application file.
+
+Meaning:
+Tell Flask which file contains app.
+
+---
+
+```bash
+set FLASK_ENV=development
+```
+
+## Word by Word
+
+* `FLASK_ENV` → Flask environment setting.
+* `development` → development mode.
+
+Meaning:
+Enable development environment.
+
+---
+
+```bash
+python.exe -m pip install --upgrade pip
+```
+
+## Word by Word
+
+* `python.exe` → Python executable.
+* `-m` → run module.
+* `pip` → package manager.
+* `install` → install/update.
+* `--upgrade` → update to latest version.
+* `pip` → update pip itself.
+
+Meaning:
+Upgrade pip package manager.
+
+---
+
+```bash
+pip install -r requirements.txt
+```
+
+## Word by Word
+
+* `pip` → package manager.
+* `install` → install packages.
+* `-r` → read from file.
+* `requirements.txt` → file containing package list.
+
+Meaning:
+Install all required packages.
+
+---
+
+```bash
+python -m flask run
+```
+
+## Word by Word
+
+* `python` → Python interpreter.
+* `-m` → run module.
+* `flask` → Flask module.
+* `run` → start Flask server.
+
+Meaning:
+Run Flask application server.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# VIVA
+
+# Viva Questions – Google App Engine + Flask
+
+## Basic Viva Questions
+
+### 1. What is Google Cloud Platform App Engine?
+
+Google App Engine (GAE) is a Platform as a Service (PaaS) used to deploy and run web applications without managing servers.
+
+---
+
+### 2. What is Flask?
+
+Flask is a lightweight Python web framework used to create web applications and APIs.
+
+---
+
+### 3. What is PaaS?
+
+PaaS (Platform as a Service) provides a platform to develop, run, and deploy applications without managing infrastructure.
+
+Examples:
+
+* Google Cloud Platform App Engine
+* Amazon Web Services Elastic Beanstalk
+* Microsoft Azure App Service
+
+---
+
+### 4. What is Google Cloud SDK?
+
+Google Cloud SDK is a command-line toolkit used to manage Google Cloud services.
+
+---
+
+### 5. What is the use of `gcloud init`?
+
+It initializes Google Cloud SDK and connects your Google account and project.
+
+---
+
+### 6. What is `app.yaml`?
+
+`app.yaml` is the configuration file used by Google App Engine to define runtime, scaling, and startup settings.
+
+---
+
+### 7. What is runtime in `app.yaml`?
+
+Runtime specifies the programming environment.
+
+Example:
+
+```yaml
+runtime: python39
+```
+
+means Python 3.9 environment.
+
+---
+
+### 8. What is Gunicorn?
+
+Gunicorn is a Python WSGI HTTP server used to run Flask applications in production.
+
+---
+
+### 9. Why do we use `requirements.txt`?
+
+It stores all required Python packages and versions for the project.
+
+---
+
+### 10. What is the purpose of `@app.route("/")`?
+
+It maps a URL path to a Python function.
+
+`"/"` represents the homepage route.
+
+---
+
+### 11. What is localhost?
+
+`127.0.0.1` is called localhost.
+It refers to the current computer.
+
+---
+
+### 12. What is port 8080?
+
+A port is a communication endpoint.
+Port 8080 is commonly used for web applications.
+
+---
+
+### 13. What is debug mode in Flask?
+
+Debug mode automatically reloads the app and shows detailed error messages.
+
+```python
+debug=True
+```
+
+---
+
+### 14. What is the use of `return` in Flask?
+
+`return` sends response data back to the browser.
+
+---
+
+### 15. Difference between Flask and Django?
+
+| Flask          | Django          |
+| -------------- | --------------- |
+| Lightweight    | Heavy framework |
+| Simple         | Feature-rich    |
+| Flexible       | Built-in tools  |
+| Small projects | Large projects  |
+
+---
+
+### 16. What is WSGI?
+
+WSGI (Web Server Gateway Interface) connects Python web apps with web servers.
+
+---
+
+### 17. What is automatic scaling?
+
+Automatic scaling increases or decreases app instances based on traffic.
+
+---
+
+### 18. What is instance class `F1`?
+
+`F1` is a free/basic instance type in Google App Engine.
+
+---
+
+### 19. What is cloud computing?
+
+Cloud computing means using servers, storage, and services over the internet.
+
+---
+
+### 20. What is deployment?
+
+Deployment means uploading and running an application on a server/cloud platform.
+
+---
+
+# Important Commands Viva
+
+| Command                           | Meaning                    |
+| --------------------------------- | -------------------------- |
+| `pip install Flask`               | Install Flask              |
+| `python hello.py`                 | Run Python file            |
+| `gcloud init`                     | Initialize Google Cloud    |
+| `python -m flask run`             | Start Flask server         |
+| `pip install -r requirements.txt` | Install packages from file |
+
+---
+
+# Output Based Questions
+
+### 21. What is the output of `hello.py`?
+
+```text
+Hello World from Google App Engine!
+```
+
+---
+
+### 22. What is the output of `addition.py`?
+
+```text
+Addition = 30
+```
+
+---
+
+# External Examiner May Ask
+
+### 23. Change addition program to multiplication
+
+```python
+return f"Multiplication = {a*b}"
+```
+
+---
+
+### 24. Take user values instead of fixed values
+
+```python
+from flask import request
+
+@app.route("/")
+def add():
+    a = int(request.args.get("a"))
+    b = int(request.args.get("b"))
+    return f"Addition = {a+b}"
+```
+
+URL:
+
+```text
+http://127.0.0.1:5000/?a=5&b=10
+```
+
+---
+
+### 25. Change route name
+
+```python
+@app.route("/home")
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5000/home
+```
+
+---
+
+### 26. Change port number
+
+```python
+app.run(port=5000)
+```
+
+---
+
+### 27. How to deploy app to App Engine?
+
+Command:
+
+```bash
+gcloud app deploy
+```
+
+---
+
+### 28. Difference between IaaS, PaaS, SaaS?
+
+| Type | Meaning        | Example                          |
+| ---- | -------------- | -------------------------------- |
+| IaaS | Infrastructure | Amazon Web Services EC2          |
+| PaaS | Platform       | Google Cloud Platform App Engine |
+| SaaS | Software       | Google Gmail                     |
+
+---
+
+# Short Viva Answers
+
+### What is Flask?
+
+Python web framework.
+
+### What is App Engine?
+
+Google cloud hosting service.
+
+### What is route?
+
+URL mapping.
+
+### What is pip?
+
+Python package manager.
+
+### What is YAML?
+
+Configuration file format.
+
+### What is Gunicorn?
+
+Python web server.
+
+### What is SDK?
+
+Software Development Kit.
+
+### What is cloud?
+
+Internet-based computing service.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,311 @@
+ 6. Design and deploy a web application in a PaaS environment. (AWS,Azure)   
+
+Step 1: Login to AWS
+Open browser.
+Go to
+AWS Console
+Click Sign In to Console
+Enter:
+AWS Email
+Password
+Login successfully.
+
+Step 2: Open AWS Amplify
+
+In AWS Console top search bar, type:
+
+Amplify
+
+Click on:
+
+AWS Amplify
+Step 3: Start Hosting
+
+Inside Amplify Dashboard:
+Click
+
+Host web app
+You will see different options.
+
+Step 4: deploy
+Deploy without Git provider
+
+Upload ZIP.
+
+Step 5: visit deployed URL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# CC-6 Viva Questions and Answers
+
+## Design and Deploy Web Application in PaaS (AWS Amplify)
+
+---
+
+## 1. What is PaaS?
+
+PaaS means **Platform as a Service**.
+It provides platform and environment to develop, deploy and host applications.
+
+---
+
+## 2. What is AWS Amplify?
+
+Amazon Web Services [AWS Amplify](https://aws.amazon.com/amplify/?utm_source=chatgpt.com) is a service used to build, host and deploy web applications.
+
+---
+
+## 3. Which cloud model is Amplify?
+
+PaaS (Platform as a Service).
+
+---
+
+## 4. What is cloud computing?
+
+Cloud computing means delivering computing services over the internet.
+
+---
+
+## 5. What is deployment?
+
+Deployment means making an application live on the internet.
+
+---
+
+## 6. What is hosting?
+
+Hosting means storing website files on a server to access online.
+
+---
+
+## 7. Why is GitHub used in Amplify?
+
+[GitHub](https://github.com/?utm_source=chatgpt.com) stores source code and connects with Amplify for deployment.
+
+---
+
+## 8. What is a repository?
+
+Repository is a storage location for project files and code.
+
+---
+
+## 9. What is a branch in GitHub?
+
+A branch is a separate version of source code.
+Example:
+
+* main
+* master
+
+---
+
+## 10. What is continuous deployment?
+
+Automatic deployment whenever code changes are pushed to GitHub.
+
+---
+
+## 11. Which files are needed for a static website?
+
+* index.html
+* style.css
+* script.js
+
+---
+
+## 12. Why is index.html important?
+
+It is the main entry page of website.
+
+---
+
+## 13. What happens if index.html is missing?
+
+Website shows 404 error.
+
+---
+
+## 14. What is YAML file in Amplify?
+
+YAML file contains build and deployment instructions.
+
+---
+
+## 15. What is build process?
+
+Converting source code into deployable application.
+
+---
+
+## 16. What are advantages of AWS Amplify?
+
+* Easy deployment
+* Automatic hosting
+* Fast setup
+* GitHub integration
+
+---
+
+## 17. What is the output of this practical?
+
+Successfully hosted a web application using AWS Amplify.
+
+---
+
+## 18. Difference between IaaS and PaaS?
+
+| IaaS                    | PaaS                |
+| ----------------------- | ------------------- |
+| Provides infrastructure | Provides platform   |
+| User manages OS         | Provider manages OS |
+| Example: EC2            | Example: Amplify    |
+
+---
+
+## 19. What is scalability?
+
+Ability to increase resources based on traffic/load.
+
+---
+
+## 20. What is the deployment URL?
+
+Generated public link to access hosted website.
+
+Example:
+
+```text id="dzqm0s"
+https://main.abcd.amplifyapp.com
+```
+
+---
+
+# Important External Viva Questions
+
+## 21. Which AWS service did you use?
+
+AWS Amplify.
+
+---
+
+## 22. Which version control system did you use?
+
+Git and GitHub.
+
+---
+
+## 23. Which deployment method did you use?
+
+GitHub deployment / ZIP deployment.
+
+---
+
+## 24. What is HTTP 404 error?
+
+Requested webpage was not found.
+
+---
+
+## 25. Why did deployment fail sometimes?
+
+* Missing files
+* Wrong folder structure
+* Build configuration error
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Changes External May Ask
+
+## 1. Change Website Title
+
+```html id="m4ly5p"
+<title>My Website</title>
+```
+
+---
+
+## 2. Change Background Color
+
+```css id="q6s8nx"
+body{
+background: lightblue;
+}
+```
+
+---
+
+## 3. Add Button
+
+```html id="w2r5fa"
+<button>Click Me</button>
+```
+
+---
+
+## 4. Add JavaScript Alert
+
+```javascript id="v9x4ok"
+alert("Welcome");
+```
+
+---
+
+## 5. Change Heading Text
+
+```html id="s1u7jb"
+<h1>Hello AWS</h1>
+```

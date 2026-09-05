@@ -1,0 +1,324 @@
+ 5. Find a procedure to launch virtual machine using AWS. 
+
+CC5 – Launch Ubuntu EC2 Instance on AWS
+
+1. Login to AWS Console
+
+2. Select Region: US East (N. Virginia)
+
+3. Search and open EC2
+
+4. Click Launch Instance
+
+5. Name and tags : UbuntuServer
+Select OS: Ubuntu Server 24.04 LTS
+
+6. Select Instance Type: t2.micro / t3.micro
+
+7. Click Create New Key Pair
+
+8. Enter key name: mykey
+
+9. Download mykey.pem file
+
+10. Click Launch Instance
+
+11. Open Instances and select the instance
+
+12. Wait until status checks are passed
+
+13. Click Connect
+
+14. Choose EC2 Instance Connect
+
+15. Username: ubuntu
+
+16. Click Connect to open the Ubuntu terminal.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Viva Questions — AWS EC2 Ubuntu Instance Launch
+
+## 1. What is AWS?
+
+Amazon Web Services is a cloud computing platform that provides services like virtual machines, storage, databases, and networking.
+
+---
+
+## 2. What is EC2?
+
+Amazon EC2 (Elastic Compute Cloud) is a service used to create and run virtual machines in the cloud.
+
+---
+
+## 3. What is a virtual machine?
+
+A virtual machine is a software-based computer that works like a real computer with CPU, RAM, storage, and operating system.
+
+---
+
+## 4. Why is EC2 called Elastic?
+
+Because resources like CPU and storage can be increased or decreased easily according to requirements.
+
+---
+
+## 5. What is Ubuntu?
+
+Ubuntu is a Linux-based open-source operating system.
+
+---
+
+## 6. What is Ubuntu Server 24.04 LTS?
+
+It is a Long Term Support version of Ubuntu server OS that gets updates and support for many years.
+
+---
+
+## 7. What is an Instance in AWS?
+
+An instance is a running virtual machine in EC2.
+
+---
+
+## 8. What is Instance Type?
+
+Instance type defines CPU, RAM, storage, and network capacity of the virtual machine.
+
+Example:
+
+```text
+t2.micro
+```
+
+---
+
+## 9. Why use t2.micro or t3.micro?
+
+Because they are free-tier eligible and suitable for basic tasks.
+
+---
+
+## 10. What is a Key Pair?
+
+A key pair is used for secure login to the EC2 instance.
+
+It contains:
+
+* Public key
+* Private key
+
+---
+
+## 11. What is the use of `.pem` file?
+
+`.pem` file is the private key used to securely connect to the EC2 instance using SSH.
+
+---
+
+## 12. What happens if `.pem` file is lost?
+
+You cannot directly access the instance using SSH without creating a new key setup.
+
+---
+
+## 13. What is a Region in AWS?
+
+A region is a physical geographical location of AWS data centers.
+
+Example:
+
+```text
+US East (N. Virginia)
+```
+
+---
+
+## 14. Why select a region?
+
+To reduce latency and deploy resources near users.
+
+---
+
+## 15. What is EC2 Instance Connect?
+
+It is a browser-based method provided by AWS to connect to Linux instances.
+
+---
+
+## 16. What is the default username for Ubuntu EC2?
+
+```text
+ubuntu
+```
+
+---
+
+## 17. What are Status Checks?
+
+AWS checks whether:
+
+* system is working
+* instance is reachable
+
+Both checks must pass before use.
+
+---
+
+## 18. Difference between Stop and Terminate?
+
+### Stop
+
+* Instance shuts down temporarily
+* Can start again
+
+### Terminate
+
+* Instance is permanently deleted
+
+---
+
+## 19. What is Security Group?
+
+A security group acts like a firewall controlling incoming and outgoing traffic.
+
+---
+
+## 20. What protocol is used to connect Linux EC2 instance?
+
+```text
+SSH (Secure Shell)
+```
+
+Port used:
+
+```text
+22
+```
+
+---
+
+# Important Commands External May Ask
+
+## Check Ubuntu version
+
+```bash
+lsb_release -a
+```
+
+---
+
+## Update packages
+
+```bash
+sudo apt update
+```
+
+---
+
+## Install nginx
+
+```bash
+sudo apt install nginx -y
+```
+
+---
+
+## Check running instances
+
+```bash
+pwd
+```
+
+---
+
+## List files
+
+```bash
+ls
+```
+
+---
+
+# External May Ask These Changes
+
+## 1. Change instance name
+
+Example:
+
+```text
+WebServer
+DatabaseServer
+```
+
+---
+
+## 2. Use Amazon Linux instead of Ubuntu
+
+Select:
+
+```text
+Amazon Linux
+```
+
+---
+
+## 3. Change instance type
+
+Example:
+
+```text
+t3.small
+```
+
+---
+
+## 4. Connect using SSH instead of browser
+
+Command:
+
+```bash
+ssh -i mykey.pem ubuntu@public-ip
+```
+
+---
+
+# One-Line Practical Summary
+
+```text
+AWS EC2 is used to create and launch Ubuntu virtual machines in the cloud.
+```

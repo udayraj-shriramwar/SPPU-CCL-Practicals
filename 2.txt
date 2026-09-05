@@ -1,0 +1,164 @@
+
+in vs code 
+
+1. Create index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AWS Web App</title>
+</head>
+<body>
+    <h1>Hello World from AWS Amplify</h1>
+</body>
+</html>
+
+
+2. Create GitHub Repository then:
+
+Using GitHub 
+Commands:
+
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin YOUR_GITHUB_LINK
+git push -u origin main
+
+
+
+3. Deploy Using AWS Amplify
+
+Using AWS Amplify
+
+Steps
+Login to AWS Console
+Search “Amplify”
+Click “Create App”
+Select GitHub
+Authorize GitHub
+Select repository
+Click Next
+Keep default settings
+Click Save and Deploy
+
+4. Output
+
+AWS gives deployed website URL like:
+
+https://main.xxxxxx.amplifyapp.com
+
+Open URL → website runs successfully.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WHAT TO SAY IN VIVA
+
+“Which cloud model is used?”
+Answer: PaaS (Platform as a Service)
+
+“Why Amplify?”
+Answer: Amplify provides easy deployment, hosting, CI/CD integration, scalability, and serverless hosting.
+
+“What is deployment?”
+Answer: Deployment means making application available on internet/server for users.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VERY IMPORTANT
+
+If external asks:
+
+“Can we use Google App Engine instead?”
+
+Say:
+
+“Yes sir/mam, because the question says any cloud platform in PaaS environment.”
+
+So your old GAE practical is ALSO correct.
+
+SAFEST EXAM STRATEGY
+Do ONE of these:
+Option 1 (Recommended)
+
+✅ AWS Amplify Static Website
+
+Very easy and quick.
+
+Option 2
+
+✅ Old Google App Engine Flask Practical
+
+Also fully valid.
+
+MOST IMPORTANT LINE FOR EXAM
+
+“AWS Amplify is a PaaS cloud service used to deploy and host web applications.”

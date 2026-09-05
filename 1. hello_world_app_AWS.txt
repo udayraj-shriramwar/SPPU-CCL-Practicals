@@ -1,0 +1,296 @@
+1. Create hello world app and other simple web applications using AWS. (Use any 
+AWS services like SAM, S3, Amplify) 
+
+# PART 1 — Create Project Folder
+
+## In VS Code Terminal
+
+
+mkdir aws-web-app
+cd aws-web-app
+
+
+---
+
+# PART 2 — Create Hello World App
+
+## `index.html`
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello AWS</title>
+</head>
+<body>
+    <h1>Hello World from AWS Amplify!</h1>
+</body>
+</html>
+
+
+Run locally:
+
+* Double click file
+  OR
+* Open with Live Server
+
+---
+
+# PART 3 — Create Addition App
+
+## `addition.html`
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Addition App</title>
+</head>
+<body>
+
+<h2>Addition Program</h2>
+
+<input type="number" id="a" placeholder="Enter first number">
+<input type="number" id="b" placeholder="Enter second number">
+
+<button onclick="add()">Add</button>
+
+<h3 id="result"></h3>
+
+<script>
+function add() {
+    let x = Number(document.getElementById("a").value);
+    let y = Number(document.getElementById("b").value);
+
+    document.getElementById("result").innerHTML =
+        "Addition = " + (x + y);
+}
+</script>
+
+</body>
+</html>
+
+
+---
+
+# PART 4 — Push to GitHub
+
+## Terminal Commands
+
+```
+git init
+git add .
+git commit -m "AWS Web App"
+```
+
+Create GitHub repository then:
+
+```
+git remote add origin YOUR_GITHUB_LINK
+git push -u origin master
+```
+
+If master fails:
+
+```
+git push -u origin main
+```
+
+---
+
+# PART 5 — Deploy Using AWS Amplify
+
+## Steps
+
+### 1. Login to:
+
+[AWS Console](https://aws.amazon.com/console/?utm_source=chatgpt.com)
+
+---
+
+### 2. Search:
+
+```
+Amplify
+```
+
+Open:
+Amazon Web Services Amplify
+
+---
+
+### 3. Click
+
+```
+Create New App
+```
+
+---
+
+### 4. Select
+
+```
+GitHub
+```
+
+---
+
+### 5. Authorize GitHub
+
+---
+
+### 6. Select Repository
+
+Choose your repo.
+
+---
+
+### 7. Branch
+
+```
+main
+```
+
+---
+
+### 8. Build Settings
+
+If asked:
+
+## Build command
+
+```
+npm run build
+```
+
+## Output directory
+
+```
+/ 
+```
+
+OR simply leave default if static site detected.
+
+---
+
+### 9. Click
+
+```
+Deploy
+```
+
+---
+
+# DONE ✅
+
+AWS gives URL like:
+
+```text id="g0z5lj"
+https://main.xxxxxx.amplifyapp.com
+```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# WHAT TO SAY IN VIVA
+
+## “Which AWS service did you use?”
+
+Answer:
+
+> “AWS Amplify Hosting.”
+
+---
+
+## “Why Amplify?”
+
+Answer:
+
+> “It provides easy deployment and hosting for web applications directly from GitHub.”
+
+---
+
+## “What apps did you create?”
+
+Answer:
+
+1. Hello World app
+2. Addition web application
+
+---
+
+## “Frontend technologies used?”
+
+Answer:
+
+* HTML
+* JavaScript
+* CSS (optional)
+
+---
+
+# MOST IMPORTANT
+
+Do NOT mention:
+
+* Google App Engine
+* Flask
+* GCloud
+
+Because now practical is AWS-based.
+
+---
+
+# IF EXTERNAL ASKS “Can we use S3 instead?”
+
+Say:
+
+> “Yes sir/mam. Static websites can also be hosted using AWS S3 bucket hosting.”
+
+---
+
+# QUICKEST EMERGENCY VERSION (2-Minute Practical)
+
+If time is very low:
+
+Only create:
+
+## `index.html`
+
+```html id="1p0gsv"
+<h1>Hello World from AWS</h1>
+```
+
+Push to GitHub → Deploy via Amplify.
+
+That alone technically satisfies:
+
+* Hello world app
+* AWS deployment
+
+But better to also keep addition app ready.
+

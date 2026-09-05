@@ -1,0 +1,931 @@
+3.  Simulate a cloud scenario using CloudSim and run a scheduling algorithm that is 
+not present in CloudSim.  
+                                                 
+
+Download the cloudsim jar
+file-https://github.com/Cloudslab/cloudsim/releases/tag/cloudsim-4.0
+
+Download and install java sdk
+from-https://www.oracle.com/java/technologies/downloads/#java11
+
+Download and install eclipse
+from-https://www.eclipse.org/downloads/packages/release/kepler/sr1/
+eclipse-ide-java-developers
+
+open eclipse
+
+file -> new -> java project
+
+give name: prac3
+
+location ->browse -> cloudsim
+
+
+right click prac3 -> new -> package "prac3"
+
+right click package prac3 -> new -> class "FCFS.java"
+
+#code
+package prac3;
+
+import org.cloudbus.cloudsim.*;
+import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.provisioners.*;
+
+import java.util.*;
+
+public class FCFS {
+
+    public static void main(String[] args) {
+
+        int numUsers = 1;
+        Calendar calendar = Calendar.getInstance();
+        boolean traceFlag = false;
+
+        CloudSim.init(numUsers, calendar, traceFlag);
+
+        Datacenter datacenter0 = createDatacenter("Datacenter_0");
+        DatacenterBroker broker = createBroker();
+        int brokerId = broker.getId();
+
+        // ================= VMs =================
+        List<Vm> vmList = new ArrayList<>();
+
+        int vmCount = 4;
+        int mips = 1000;
+
+        for (int i = 0; i < vmCount; i++) {
+            Vm vm = new Vm(
+                    i,
+                    brokerId,
+                    mips,
+                    1,
+                    1024,
+                    10000,
+                    10000,
+                    "Xen",
+                    new CloudletSchedulerSpaceShared()   // ✔ FCFS behavior
+            );
+            vmList.add(vm);
+        }
+
+        broker.submitVmList(vmList);
+
+        // ================= CLOUDLETS =================
+        List<Cloudlet> cloudletList = new ArrayList<>();
+
+        int cloudletCount = 8;
+        long length = 40000;
+        int pesNumber = 1;
+        long fileSize = 300;
+        long outputSize = 300;
+
+        UtilizationModel utilizationModel = new UtilizationModelFull();
+
+        for (int i = 0; i < cloudletCount; i++) {
+            Cloudlet cloudlet = new Cloudlet(
+                    i,
+                    length,
+                    pesNumber,
+                    fileSize,
+                    outputSize,
+                    utilizationModel,
+                    utilizationModel,
+                    utilizationModel
+            );
+
+            cloudlet.setUserId(brokerId);
+            cloudletList.add(cloudlet);
+        }
+
+        // ✔ Ensure FCFS order
+        cloudletList.sort(Comparator.comparingInt(Cloudlet::getCloudletId));
+
+        broker.submitCloudletList(cloudletList);
+
+        // ================= FCFS ASSIGNMENT =================
+        assignFCFS(cloudletList, vmList);
+
+        // ================= RUN SIMULATION =================
+        CloudSim.startSimulation();
+
+        List<Cloudlet> resultList = broker.getCloudletReceivedList();
+
+        CloudSim.stopSimulation();
+
+        printResults(resultList);
+    }
+
+    // ================= FCFS VM ASSIGNMENT =================
+    private static void assignFCFS(List<Cloudlet> cloudletList, List<Vm> vmList) {
+
+        int vmIndex = 0;
+
+        for (Cloudlet cloudlet : cloudletList) {
+            cloudlet.setVmId(vmList.get(vmIndex).getId());
+
+            vmIndex++;
+            if (vmIndex == vmList.size()) {
+                vmIndex = 0;
+            }
+        }
+    }
+
+    // ================= DATACENTER =================
+    private static Datacenter createDatacenter(String name) {
+
+        List<Host> hostList = new ArrayList<>();
+
+        int mips = 10000;
+        int ram = 16384;
+        long storage = 1000000;
+        int bw = 10000;
+
+        // ✔ FIXED PE PROVISIONING (your error was here)
+        List<Pe> peList = new ArrayList<>();
+
+        PeProvisionerSimple peProvisioner = new PeProvisionerSimple(mips);
+        peList.add(new Pe(0, peProvisioner));
+
+        hostList.add(
+                new Host(
+                        0,
+                        new RamProvisionerSimple(ram),
+                        new BwProvisionerSimple(bw),
+                        storage,
+                        peList,
+                        new VmSchedulerSpaceShared(peList) // ✔ safe for most CloudSim 3.x
+                )
+        );
+
+        String arch = "x86";
+        String os = "Linux";
+        String vmm = "Xen";
+
+        DatacenterCharacteristics characteristics =
+                new DatacenterCharacteristics(
+                        arch,
+                        os,
+                        vmm,
+                        hostList,
+                        10,
+                        3,
+                        0.05,
+                        0.1,
+                        0.1
+                );
+
+        try {
+            return new Datacenter(
+                    name,
+                    characteristics,
+                    new VmAllocationPolicySimple(hostList),
+                    new LinkedList<>(),
+                    0
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // ================= BROKER =================
+    private static DatacenterBroker createBroker() {
+        try {
+            return new DatacenterBroker("Broker");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // ================= OUTPUT =================
+    private static void printResults(List<Cloudlet> list) {
+
+        System.out.println("\n========== FCFS OUTPUT ==========");
+        System.out.println("ID | STATUS | VM | EXEC TIME | START | FINISH");
+
+        for (Cloudlet c : list) {
+            System.out.printf(
+                    "%2d | %7s | %2d | %9.2f | %5.2f | %6.2f%n",
+                    c.getCloudletId(),
+                    (c.getStatus() == Cloudlet.SUCCESS ? "DONE" : "FAIL"),
+                    c.getVmId(),
+                    c.getActualCPUTime(),
+                    c.getExecStartTime(),
+                    c.getFinishTime()
+            );
+        }
+    }
+}
+
+
+Last step : click Run
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# EXPLANATION
+
+## Practical 3: Simulate a Cloud Scenario Using CloudSim and Run FCFS Scheduling Algorithm 
+
+This practical demonstrates how to use CloudSim to simulate a cloud computing environment and implement the **FCFS (First Come First Serve)** scheduling algorithm.
+
+---
+
+# Aim
+
+To simulate a cloud environment using CloudSim and implement the **FCFS Scheduling Algorithm** for cloudlet execution.
+
+---
+
+# Software Required
+
+* CloudSim
+* Java SE Development Kit
+* Eclipse IDE
+
+---
+
+# Downloads
+
+* [CloudSim Download](https://github.com/Cloudslab/cloudsim/releases/tag/cloudsim-4.0?utm_source=chatgpt.com)
+* [Java JDK Download](https://www.oracle.com/java/technologies/downloads/?utm_source=chatgpt.com#java11)
+* [Eclipse IDE Download](https://www.eclipse.org/downloads/packages/release/kepler/sr1/eclipse-ide-java-developers?utm_source=chatgpt.com)
+
+---
+
+# Step-by-Step Procedure
+
+## 1. Install Required Software
+
+Install:
+
+* Java JDK
+* Eclipse IDE
+* CloudSim library
+
+---
+
+## 2. Create Java Project
+
+Open Eclipse:
+
+* File → New → Java Project
+* Project Name: `prac3`
+
+Add CloudSim jar files to project build path.
+
+---
+
+## 3. Create Package and Class
+
+* Right click project → New → Package → `prac3`
+* Right click package → New → Class → `FCFS.java`
+
+---
+
+# Code Explanation
+
+---
+
+# Package and Imports
+
+```java
+package prac3;
+```
+
+Defines package name.
+
+---
+
+```java
+import org.cloudbus.cloudsim.*;
+import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.provisioners.*;
+
+import java.util.*;
+```
+
+Imports CloudSim classes and Java utility classes.
+
+---
+
+# Main Method
+
+```java
+public static void main(String[] args)
+```
+
+Execution starts from this method.
+
+---
+
+# CloudSim Initialization
+
+```java
+int numUsers = 1;
+Calendar calendar = Calendar.getInstance();
+boolean traceFlag = false;
+
+CloudSim.init(numUsers, calendar, traceFlag);
+```
+
+### Explanation
+
+* `numUsers = 1`
+  → One cloud user.
+
+* `Calendar.getInstance()`
+  → Gets current system time.
+
+* `traceFlag = false`
+  → Disables event tracing logs.
+
+* `CloudSim.init()`
+  → Initializes CloudSim simulation engine.
+
+---
+
+# Datacenter Creation
+
+```java
+Datacenter datacenter0 = createDatacenter("Datacenter_0");
+```
+
+Creates a cloud datacenter.
+
+A datacenter contains:
+
+* Hosts
+* Processing elements
+* RAM
+* Storage
+* Bandwidth
+
+---
+
+# Broker Creation
+
+```java
+DatacenterBroker broker = createBroker();
+int brokerId = broker.getId();
+```
+
+### Broker
+
+Broker acts as mediator between:
+
+* User
+* Virtual Machines
+* Cloudlets
+
+---
+
+# VM Creation
+
+```java
+List<Vm> vmList = new ArrayList<>();
+```
+
+Creates list of virtual machines.
+
+---
+
+```java
+int vmCount = 4;
+int mips = 1000;
+```
+
+* `vmCount`
+  → Number of VMs.
+
+* `mips`
+  → Million Instructions Per Second.
+
+---
+
+# VM Loop
+
+```java
+for (int i = 0; i < vmCount; i++)
+```
+
+Creates 4 VMs.
+
+---
+
+# VM Constructor
+
+```java
+Vm vm = new Vm(
+    i,
+    brokerId,
+    mips,
+    1,
+    1024,
+    10000,
+    10000,
+    "Xen",
+    new CloudletSchedulerSpaceShared()
+);
+```
+
+## Parameters
+
+| Parameter                        | Meaning         |
+| -------------------------------- | --------------- |
+| `i`                              | VM ID           |
+| `brokerId`                       | Owner ID        |
+| `mips`                           | VM speed        |
+| `1`                              | CPU cores       |
+| `1024`                           | RAM             |
+| `10000`                          | Bandwidth       |
+| `10000`                          | Storage         |
+| `"Xen"`                          | Hypervisor      |
+| `CloudletSchedulerSpaceShared()` | FCFS scheduling |
+
+---
+
+# Why SpaceShared?
+
+```java
+new CloudletSchedulerSpaceShared()
+```
+
+Executes one cloudlet at a time.
+
+This behaves like:
+
+# FCFS Scheduling
+
+Tasks execute in order of arrival.
+
+---
+
+# Submit VM List
+
+```java
+broker.submitVmList(vmList);
+```
+
+Broker receives VM list.
+
+---
+
+# Cloudlet Creation
+
+```java
+List<Cloudlet> cloudletList = new ArrayList<>();
+```
+
+Creates task list.
+
+---
+
+```java
+int cloudletCount = 8;
+long length = 40000;
+```
+
+* 8 cloudlets
+* Each cloudlet length = 40000 instructions
+
+---
+
+# Utilization Model
+
+```java
+UtilizationModel utilizationModel = new UtilizationModelFull();
+```
+
+Uses full CPU resources during execution.
+
+---
+
+# Cloudlet Loop
+
+```java
+for (int i = 0; i < cloudletCount; i++)
+```
+
+Creates 8 cloudlets.
+
+---
+
+# Cloudlet Constructor
+
+```java
+Cloudlet cloudlet = new Cloudlet(
+    i,
+    length,
+    pesNumber,
+    fileSize,
+    outputSize,
+    utilizationModel,
+    utilizationModel,
+    utilizationModel
+);
+```
+
+## Parameters
+
+| Parameter          | Meaning        |
+| ------------------ | -------------- |
+| `i`                | Cloudlet ID    |
+| `length`           | Task size      |
+| `pesNumber`        | CPU cores      |
+| `fileSize`         | Input size     |
+| `outputSize`       | Output size    |
+| `utilizationModel` | Resource usage |
+
+---
+
+# User Assignment
+
+```java
+cloudlet.setUserId(brokerId);
+```
+
+Assigns cloudlet to broker.
+
+---
+
+# FCFS Ordering
+
+```java
+cloudletList.sort(Comparator.comparingInt(Cloudlet::getCloudletId));
+```
+
+Sorts cloudlets by ID.
+
+Lowest ID executes first.
+
+This ensures:
+
+# First Come First Serve behavior
+
+---
+
+# Submit Cloudlets
+
+```java
+broker.submitCloudletList(cloudletList);
+```
+
+Broker receives cloudlet list.
+
+---
+
+# FCFS Assignment Method
+
+```java
+assignFCFS(cloudletList, vmList);
+```
+
+Assigns cloudlets to VMs.
+
+---
+
+# FCFS VM Allocation Logic
+
+```java
+private static void assignFCFS(List<Cloudlet> cloudletList, List<Vm> vmList)
+```
+
+Method for allocation.
+
+---
+
+# Round Robin Style VM Assignment
+
+```java
+cloudlet.setVmId(vmList.get(vmIndex).getId());
+```
+
+Assigns cloudlet to VM.
+
+---
+
+```java
+vmIndex++;
+if (vmIndex == vmList.size()) {
+    vmIndex = 0;
+}
+```
+
+Cycles through VMs one by one.
+
+---
+
+# Datacenter Method
+
+```java
+private static Datacenter createDatacenter(String name)
+```
+
+Creates datacenter.
+
+---
+
+# Host Configuration
+
+```java
+int mips = 10000;
+int ram = 16384;
+long storage = 1000000;
+int bw = 10000;
+```
+
+Defines:
+
+* CPU power
+* RAM
+* Storage
+* Bandwidth
+
+---
+
+# Processing Element (PE)
+
+```java
+PeProvisionerSimple peProvisioner = new PeProvisionerSimple(mips);
+peList.add(new Pe(0, peProvisioner));
+```
+
+PE represents CPU core.
+
+---
+
+# Host Creation
+
+```java
+new Host(
+    0,
+    new RamProvisionerSimple(ram),
+    new BwProvisionerSimple(bw),
+    storage,
+    peList,
+    new VmSchedulerSpaceShared(peList)
+)
+```
+
+Creates host machine.
+
+---
+
+# Datacenter Characteristics
+
+```java
+String arch = "x86";
+String os = "Linux";
+String vmm = "Xen";
+```
+
+Defines:
+
+* Architecture
+* Operating System
+* Hypervisor
+
+---
+
+# Datacenter Object
+
+```java
+return new Datacenter(
+    name,
+    characteristics,
+    new VmAllocationPolicySimple(hostList),
+    new LinkedList<>(),
+    0
+);
+```
+
+Creates final datacenter.
+
+---
+
+# Broker Method
+
+```java
+private static DatacenterBroker createBroker()
+```
+
+Creates broker object.
+
+---
+
+# Start Simulation
+
+```java
+CloudSim.startSimulation();
+```
+
+Starts execution.
+
+---
+
+# Get Results
+
+```java
+List<Cloudlet> resultList = broker.getCloudletReceivedList();
+```
+
+Collects completed cloudlets.
+
+---
+
+# Stop Simulation
+
+```java
+CloudSim.stopSimulation();
+```
+
+Ends simulation.
+
+---
+
+# Print Results
+
+```java
+printResults(resultList);
+```
+
+Displays output.
+
+---
+
+# Output Format
+
+```java
+System.out.println("ID | STATUS | VM | EXEC TIME | START | FINISH");
+```
+
+Columns:
+
+| Column    | Meaning            |
+| --------- | ------------------ |
+| ID        | Cloudlet ID        |
+| STATUS    | SUCCESS/FAIL       |
+| VM        | VM ID              |
+| EXEC TIME | CPU execution time |
+| START     | Start time         |
+| FINISH    | Finish time        |
+
+---
+
+# Expected Output
+
+```text
+========== FCFS OUTPUT ==========
+ID | STATUS | VM | EXEC TIME | START | FINISH
+
+0 | DONE | 0 | 40.00 | 0.10 | 40.10
+1 | DONE | 1 | 40.00 | 0.10 | 40.10
+...
+```
+
+---
+
+# FCFS Scheduling
+
+## Definition
+
+FCFS = First Come First Serve
+
+The first task arriving in queue gets executed first.
+
+---
+
+# Advantages
+
+* Simple implementation
+* Fair scheduling
+* Easy to understand
+
+---
+
+# Disadvantages
+
+* Large task may delay smaller tasks
+* Higher waiting time possible
+
+---
+
+# Viva Questions
+
+## 1. What is CloudSim?
+
+CloudSim is a toolkit used to simulate cloud computing environments.
+
+---
+
+## 2. What is a Cloudlet?
+
+A Cloudlet represents a task/job submitted to cloud.
+
+---
+
+## 3. What is VM?
+
+VM stands for Virtual Machine.
+
+---
+
+## 4. What is FCFS Scheduling?
+
+Tasks execute in order of arrival.
+
+---
+
+## 5. What is Broker in CloudSim?
+
+Broker manages communication between users and datacenter.
+
+---
+
+## 6. What is MIPS?
+
+Million Instructions Per Second.
+
+---
+
+## 7. What is Hypervisor?
+
+Software used to create/manage virtual machines.
+
+Example:
+
+* Xen
+* VMware
+
+---
+
+## 8. Difference between TimeShared and SpaceShared?
+
+| TimeShared                    | SpaceShared        |
+| ----------------------------- | ------------------ |
+| Multiple tasks simultaneously | One task at a time |
+| CPU shared                    | Dedicated CPU      |
+
+---
+
+## 9. What is PE?
+
+Processing Element (CPU Core).
+
+---
+
+## 10. Why use simulation?
+
+To test cloud environments without real infrastructure.
+
+---
+
+# Conclusion
+
+Thus, a cloud environment was successfully simulated using CloudSim and the FCFS scheduling algorithm was implemented and executed successfully.

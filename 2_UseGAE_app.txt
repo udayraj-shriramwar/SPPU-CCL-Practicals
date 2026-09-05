@@ -1,0 +1,556 @@
+2. Use GAE launcher to launch the web applications.
+
+#Create Project Folder(terminal)
+mkdir myapp
+cd myapp
+
+#hello.py
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World from Google App Engine!"
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=8080, debug=True)
+
+
+#app.yaml
+runtime: python39
+entrypoint: gunicorn -b :$PORT main:app
+
+
+#requirements.txt
+Flask==3.0.0
+gunicorn==21.2.0
+
+
+#GAE shell
+##Initialize Google Cloud SDK
+gcloud init
+cd "paste_path_here"
+
+#run
+set FLASK_APP=hello.py
+
+set FLASK_ENV=development
+
+python.exe -m pip install --upgrade pip
+
+pip install -r requirements.txt
+(ONLY IF Error RUN)  python.exe -m pip install -r requirements.txt
+
+
+python -m flask run
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# EXPLANATION
+
+
+## 1. Create Project Folder
+
+# 2. hello.py File
+
+```python
+from flask import Flask
+```
+
+## Word by Word
+
+* `from`
+
+  * Used to import something from a module/package.
+
+* `flask`
+
+  * Flask library/module used for web development.
+
+* `import`
+
+  * Keyword used to bring functionality into program.
+
+* `Flask`
+
+  * Main Flask class used to create web application.
+
+➡️ This line imports Flask class from Flask library.
+
+---
+
+```python
+app = Flask(__name__)
+```
+
+## Word by Word
+
+* `app`
+
+  * Variable name storing Flask application object.
+
+* `=`
+
+  * Assignment operator.
+
+* `Flask()`
+
+  * Creates Flask web application object.
+
+* `__name__`
+
+  * Special Python variable.
+  * Represents current file name/module name.
+  * Flask uses it to know where application is running.
+
+➡️ This line creates the web application.
+
+---
+
+```python
+@app.route("/")
+```
+
+## Word by Word
+
+* `@`
+
+  * Decorator symbol in Python.
+
+* `app.route()`
+
+  * Used to define URL path.
+
+* `"/"`
+
+  * Root/home page URL.
+
+➡️ Means whenever user opens homepage `/`, run the next function.
+
+---
+
+```python
+def hello():
+```
+
+## Word by Word
+
+* `def`
+
+  * Keyword used to define function.
+
+* `hello`
+
+  * Function name.
+
+* `()`
+
+  * Function parameters section.
+
+* `:`
+
+  * Starts function block.
+
+➡️ Function named `hello` is created.
+
+---
+
+```python
+return "Hello World from Google App Engine!"
+```
+
+## Word by Word
+
+* `return`
+
+  * Sends output back to browser.
+
+* `"Hello World from Google App Engine!"`
+
+  * Text displayed on webpage.
+
+➡️ Browser shows this message.
+
+---
+
+```python
+if __name__ == "__main__":
+```
+
+## Word by Word
+
+* `if`
+
+  * Conditional statement.
+
+* `__name__`
+
+  * Current module name.
+
+* `==`
+
+  * Comparison operator.
+
+* `"__main__"`
+
+  * Means file is directly executed.
+
+➡️ Checks whether file is run directly.
+
+---
+
+```python
+app.run(host="127.0.0.1", port=8080, debug=True)
+```
+
+## Word by Word
+
+* `app.run()`
+
+  * Starts Flask server.
+
+### Parameters
+
+* `host="127.0.0.1"`
+
+  * Localhost/IP address.
+  * Runs app on local computer.
+
+* `port=8080`
+
+  * Port number where app runs.
+
+* `debug=True`
+
+  * Enables debug mode.
+  * Automatically reloads app after changes.
+  * Shows errors properly.
+
+➡️ Starts web application server.
+
+---
+
+# 3. app.yaml File
+
+```yaml
+runtime: python39
+```
+
+## Explanation
+
+* `runtime`
+
+  * Specifies programming environment.
+
+* `python39`
+
+  * Uses Python 3.9 runtime on Google App Engine.
+
+➡️ Tells GAE to use Python 3.9.
+
+---
+
+```yaml
+entrypoint: gunicorn -b :$PORT main:app
+```
+
+## Word by Word
+
+* `entrypoint`
+
+  * Starting command for application.
+
+* `gunicorn`
+
+  * Production web server for Python apps.
+
+* `-b`
+
+  * Means bind server.
+
+* `:$PORT`
+
+  * Uses port provided by Google App Engine.
+
+* `main:app`
+
+  * `main`
+
+    * Python file name (`main.py`)
+  * `app`
+
+    * Flask application object.
+
+➡️ Starts Flask app using Gunicorn server.
+
+---
+
+# 4. requirements.txt
+
+```txt
+Flask==3.0.0
+```
+
+## Explanation
+
+* `Flask`
+
+  * Flask package name.
+
+* `==`
+
+  * Exact version operator.
+
+* `3.0.0`
+
+  * Flask version.
+
+➡️ Installs Flask version 3.0.0.
+
+---
+
+```txt
+gunicorn==21.2.0
+```
+
+## Explanation
+
+* `gunicorn`
+
+  * Python WSGI server.
+
+* `21.2.0`
+
+  * Gunicorn version.
+
+➡️ Installs Gunicorn server.
+
+---
+
+# 5. GAE Shell Commands
+
+```bash
+gcloud init
+```
+
+## Explanation
+
+* `gcloud`
+
+  * Google Cloud command-line tool.
+
+* `init`
+
+  * Initializes Google Cloud SDK.
+
+➡️ Used to login and configure Google Cloud.
+
+---
+
+```bash
+cd "paste_path_here"
+```
+
+## Explanation
+
+* Moves terminal into project directory.
+
+Example:
+
+```bash
+cd "C:\Users\Admin\Desktop\myapp"
+```
+
+---
+
+```bash
+set FLASK_APP=hello.py
+```
+
+## Word by Word
+
+* `set`
+
+  * Sets environment variable.
+
+* `FLASK_APP`
+
+  * Flask variable specifying main file.
+
+* `hello.py`
+
+  * Main application file.
+
+➡️ Tells Flask which file to run.
+
+---
+
+```bash
+set FLASK_ENV=development
+```
+
+## Explanation
+
+* `FLASK_ENV`
+
+  * Flask environment variable.
+
+* `development`
+
+  * Enables development mode.
+
+➡️ Enables debugging and auto reload.
+
+---
+
+```bash
+python.exe -m pip install --upgrade pip
+```
+
+## Word by Word
+
+* `python.exe`
+
+  * Python executable.
+
+* `-m`
+
+  * Runs module as script.
+
+* `pip`
+
+  * Python package manager.
+
+* `install`
+
+  * Install package.
+
+* `--upgrade`
+
+  * Update to latest version.
+
+* `pip`
+
+  * Package being upgraded.
+
+➡️ Updates pip to latest version.
+
+---
+
+```bash
+pip install -r requirements.txt
+```
+
+## Word by Word
+
+* `pip`
+
+  * Python package installer.
+
+* `install`
+
+  * Install packages.
+
+* `-r`
+
+  * Read from file.
+
+* `requirements.txt`
+
+  * File containing dependencies.
+
+➡️ Installs all required packages.
+
+---
+
+```bash
+python.exe -m pip install -r requirements.txt
+```
+
+## Explanation
+
+Alternative command if above gives error.
+
+➡️ Uses Python directly to run pip.
+
+---
+
+```bash
+python -m flask run
+```
+
+## Word by Word
+
+* `python`
+
+  * Runs Python.
+
+* `-m`
+
+  * Runs module.
+
+* `flask`
+
+  * Flask module.
+
+* `run`
+
+  * Starts Flask server.
+
+➡️ Launches web application locally.
+
+---
+
+# Complete Flow
+
+1. Create folder
+2. Create Flask app (`hello.py`)
+3. Create configuration (`app.yaml`)
+4. Add dependencies (`requirements.txt`)
+5. Initialize Google Cloud
+6. Install packages
+7. Run Flask app
+8. Deploy/run on Google App Engine
+
+---
+

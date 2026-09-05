@@ -1,0 +1,872 @@
+4. Find a procedure to transfer the files from one virtual machine to another virtual machine.
+
+Step 1: Download and Install Oracle VirtualBox
+
+Step 2: Download Ubuntu VMDK Image
+
+Step 3: Launch VirtualBox and Create New VM
+Open VirtualBox
+Click on New
+Enter:
+Name of VM : VM1
+OS → Linux
+OS Version → Ubuntu (64-bit)
+specify virtual hardware → Base Memory → 1024 MB
+Use an existing virtual hard disk file → Browse .vmdk file
+Finish
+
+#SIMILARLY
+Name of VM : VM2
+OS → Linux
+OS Version → Ubuntu (64-bit)
+specify virtual hardware → Base Memory → 1024 MB
+specify virtual hard disk→Use an existing virtual hard disk file → Browse .vmdk file
+Finish
+
+Open VirtualBox:
+File → Tools → Network
+Open the NAT Networks tab → Create+(top taskbar left side)
+Apply
+
+click VM1 →Settings → Network → Attached To → NAT Network
+
+click VM2 →Settings → Network → Attached To → NAT Network
+
+
+Launch Both Virtual Machines (START)
+
+#SAME STEPS FOR BOTH VM'S
+
+vagrant login → type "vagrant" → password type: "vagrant"
+
+you will see something like: vagrant@ubuntu:~$
+#type commands
+sudo apt update
+sudo apt install net-tools
+
+#after this command runs in  'eth0' you will see 'i net'  keep in mind the IP address (10.0.2.4)
+
+
+
+#IN VM1
+
+#Create File
+touch transfer.txt
+
+#Open File
+nano transfer.txt
+
+# Write: Hello from VM1
+
+#Press:  Ctrl + O
+
+#Then: Ctrl + X
+
+#Run this command in VM1:
+scp transfer.txt vagrant@10.0.2.3:/home/vagrant  
+(10.0.2.3 taken from i net IP address)
+
+Are you sure you want to continue connecting (yes/no)?
+Type: yes
+
+password: vagrant
+
+
+#Check File in VM2
+
+In VM2 run: 
+ls
+
+#To view content:
+cat transfer.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#EXPLANATION
+
+
+# 4. Find a procedure to transfer files from one Virtual Machine to another Virtual Machine
+
+This practical shows how to transfer a file from **VM1** to **VM2** using the **SCP (Secure Copy Protocol)** command in Linux.
+
+---
+
+# Step 1: Download and Install Oracle VirtualBox
+
+### Meaning
+
+* **Oracle VirtualBox** = software used to create and run virtual machines.
+* **Virtual Machine (VM)** = a computer running inside another computer.
+
+You will create:
+
+* VM1
+* VM2
+
+Both run Ubuntu Linux.
+
+---
+
+# Step 2: Download Ubuntu VMDK Image
+
+### Meaning
+
+* **Ubuntu** = Linux operating system.
+* **VMDK** = Virtual Machine Disk file.
+* It contains the operating system files.
+
+This file acts like the hard disk of the VM.
+
+---
+
+# Step 3: Launch VirtualBox and Create New VM
+
+## Open VirtualBox
+
+Launch the VirtualBox software.
+
+---
+
+## Click on New
+
+Used to create a new virtual machine.
+
+---
+
+# Enter:
+
+## Name of VM : VM1
+
+* Gives your VM a name.
+* VM1 means Virtual Machine 1.
+
+---
+
+## OS → Linux
+
+### Meaning
+
+* OS = Operating System.
+* Select Linux because Ubuntu is Linux-based.
+
+---
+
+## OS Version → Ubuntu (64-bit)
+
+### Meaning
+
+* Ubuntu operating system.
+* 64-bit version supports modern systems.
+
+---
+
+## specify virtual hardware → Base Memory → 1024 MB
+
+### Meaning
+
+* RAM assigned to VM.
+* 1024 MB = 1 GB RAM.
+
+This memory is temporarily shared from your real computer.
+
+---
+
+## Use an existing virtual hard disk file → Browse .vmdk file
+
+### Meaning
+
+* Instead of creating a new disk,
+* use the downloaded Ubuntu VMDK file.
+
+Browse and select the `.vmdk` file.
+
+---
+
+## Finish
+
+Completes VM creation.
+
+---
+
+# SIMILARLY CREATE VM2
+
+Same steps are repeated.
+
+Only difference:
+
+```text
+Name of VM : VM2
+```
+
+VM2 means second virtual machine.
+
+---
+
+# Configure Network
+
+---
+
+## Open VirtualBox:
+
+File → Tools → Network
+
+### Meaning
+
+Used to manage networking settings for VMs.
+
+---
+
+## Open the NAT Networks tab → Create +
+
+### Meaning
+
+* NAT = Network Address Translation.
+* Allows VMs to communicate with each other and internet.
+
+### Create +
+
+Creates a virtual private network.
+
+---
+
+## Apply
+
+Saves network settings.
+
+---
+
+# Attach Both VMs to NAT Network
+
+---
+
+## click VM1 → Settings → Network → Attached To → NAT Network
+
+### Meaning
+
+Connects VM1 to NAT network.
+
+---
+
+## click VM2 → Settings → Network → Attached To → NAT Network
+
+### Meaning
+
+Connects VM2 to same NAT network.
+
+Now both VMs are on same network and can communicate.
+
+---
+
+# Launch Both Virtual Machines
+
+Click **START** for:
+
+* VM1
+* VM2
+
+Ubuntu operating system will boot.
+
+---
+
+# Login into Ubuntu
+
+```bash
+vagrant
+```
+
+### Meaning
+
+Username is:
+
+```bash
+vagrant
+```
+
+---
+
+## Password
+
+```bash
+vagrant
+```
+
+### Meaning
+
+Default password of Vagrant Ubuntu image.
+
+---
+
+After login you will see:
+
+```bash
+vagrant@ubuntu:~$
+```
+
+### Meaning of Each Part
+
+| Part    | Meaning              |
+| ------- | -------------------- |
+| vagrant | Current username     |
+| ubuntu  | Computer/VM name     |
+| ~       | Home directory       |
+| $       | Normal user terminal |
+
+---
+
+# Install Network Tools
+
+---
+
+## Command
+
+```bash
+sudo apt update
+```
+
+# Word-by-Word Explanation
+
+| Word   | Meaning                           |
+| ------ | --------------------------------- |
+| sudo   | Run command as administrator/root |
+| apt    | Package manager in Ubuntu         |
+| update | Refresh package list              |
+
+### Full Meaning
+
+Updates package information from internet.
+
+---
+
+# Next Command
+
+```bash
+sudo apt install net-tools
+```
+
+# Word-by-Word Explanation
+
+| Word      | Meaning                    |
+| --------- | -------------------------- |
+| sudo      | Administrator permission   |
+| apt       | Package manager            |
+| install   | Install software           |
+| net-tools | Networking utility package |
+
+### Full Meaning
+
+Installs networking commands like:
+
+* ifconfig
+
+---
+
+# Check IP Address
+
+After installation run:
+
+```bash
+ifconfig
+```
+
+### Meaning
+
+Displays network configuration.
+
+---
+
+# In `eth0` You Will See `inet`
+
+Example:
+
+```text
+eth0: inet 10.0.2.4
+```
+
+# Explanation
+
+| Word     | Meaning                    |
+| -------- | -------------------------- |
+| eth0     | Ethernet network interface |
+| inet     | IP address                 |
+| 10.0.2.4 | IP address of VM           |
+
+---
+
+# IMPORTANT
+
+Write down:
+
+* VM1 IP
+* VM2 IP
+
+Example:
+
+* VM1 → 10.0.2.4
+* VM2 → 10.0.2.3
+
+These IPs are needed for file transfer.
+
+---
+
+# IN VM1
+
+---
+
+# Create File
+
+```bash
+touch transfer.txt
+```
+
+# Word-by-Word Explanation
+
+| Word         | Meaning           |
+| ------------ | ----------------- |
+| touch        | Create empty file |
+| transfer.txt | File name         |
+
+### Full Meaning
+
+Creates an empty text file named:
+
+```text
+transfer.txt
+```
+
+---
+
+# Open File
+
+```bash
+nano transfer.txt
+```
+
+# Word-by-Word Explanation
+
+| Word         | Meaning      |
+| ------------ | ------------ |
+| nano         | Text editor  |
+| transfer.txt | File to open |
+
+### Full Meaning
+
+Opens file in Nano text editor.
+
+---
+
+# Write Inside File
+
+```text
+Hello from VM1
+```
+
+This is the file content.
+
+---
+
+# Save File
+
+## Press:
+
+```text
+Ctrl + O
+```
+
+### Meaning
+
+* O = Write Out
+* Saves file.
+
+---
+
+## Then Press:
+
+```text
+Ctrl + X
+```
+
+### Meaning
+
+Exits Nano editor.
+
+---
+
+# Transfer File Using SCP
+
+## Command
+
+```bash
+scp transfer.txt vagrant@10.0.2.3:/home/vagrant
+```
+
+# Word-by-Word Explanation
+
+| Part          | Meaning                                |
+| ------------- | -------------------------------------- |
+| scp           | Secure Copy command                    |
+| transfer.txt  | File to send                           |
+| vagrant       | Username of destination VM             |
+| @             | “at” symbol connecting username and IP |
+| 10.0.2.3      | IP address of VM2                      |
+| :             | Separates IP and path                  |
+| /home/vagrant | Destination folder                     |
+
+---
+
+# Full Meaning
+
+Copy:
+
+```text
+transfer.txt
+```
+
+from VM1
+
+to:
+
+```text
+/home/vagrant
+```
+
+folder in VM2 securely over network.
+
+---
+
+# Message
+
+```text
+Are you sure you want to continue connecting (yes/no)?
+```
+
+### Meaning
+
+Linux asks permission because this is first-time connection.
+
+---
+
+# Type
+
+```bash
+yes
+```
+
+### Meaning
+
+Trust and continue connection.
+
+---
+
+# Password
+
+```bash
+vagrant
+```
+
+### Meaning
+
+Password of destination VM2 user.
+
+---
+
+# Check File in VM2
+
+Run:
+
+```bash
+ls
+```
+
+# Word-by-Word Explanation
+
+| Word | Meaning                |
+| ---- | ---------------------- |
+| ls   | List files and folders |
+
+### Meaning
+
+Displays files in current directory.
+
+You should see:
+
+```text
+transfer.txt
+```
+
+---
+
+# View File Content
+
+```bash
+cat transfer.txt
+```
+
+# Word-by-Word Explanation
+
+| Word         | Meaning              |
+| ------------ | -------------------- |
+| cat          | Display file content |
+| transfer.txt | File name            |
+
+---
+
+# Output
+
+```text
+Hello from VM1
+```
+
+### Meaning
+
+File transfer was successful.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# VIVA
+
+# 20 Important Viva Questions with Answers
+
+## File Transfer Between One VM to Another VM Using SCP
+
+---
+
+## 1. What is a Virtual Machine (VM)?
+
+A Virtual Machine is a software-based computer that runs inside another computer.
+It behaves like a real computer with its own OS, RAM, storage, and network.
+
+---
+
+## 2. What is Oracle VirtualBox?
+
+VirtualBox is virtualization software used to create and run virtual machines on a physical computer.
+
+---
+
+## 3. What is Ubuntu?
+
+Ubuntu is a Linux-based operating system commonly used for servers, cloud computing, and virtual machines.
+
+---
+
+## 4. What is a VMDK file?
+
+VMDK stands for Virtual Machine Disk.
+It is a virtual hard disk file used by virtual machines.
+
+---
+
+## 5. Why do we create two VMs in this practical?
+
+Two VMs are required so that files can be transferred from one machine (VM1) to another machine (VM2).
+
+---
+
+## 6. What is virtualization?
+
+Virtualization is the technology of creating virtual versions of computers, storage, or networks using software.
+
+---
+
+## 7. What is NAT Network in VirtualBox?
+
+NAT Network allows multiple VMs to communicate with each other and access the internet through the host machine.
+
+---
+
+## 8. Why are both VMs connected to the same NAT Network?
+
+Both VMs must be on the same network so they can communicate and transfer files.
+
+---
+
+## 9. What is an IP address?
+
+An IP address is a unique numerical address assigned to a device in a network for communication.
+
+Example:
+
+```text
+10.0.2.3
+```
+
+---
+
+## 10. What is the use of `ifconfig` command?
+
+`ifconfig` displays network configuration details such as:
+
+* IP address
+* Network interface
+* Status of network
+
+---
+
+## 11. What is `eth0`?
+
+`eth0` is the Ethernet network interface of the Linux system.
+
+---
+
+## 12. What is SCP?
+
+SCP stands for Secure Copy Protocol.
+It is used to securely transfer files between systems over a network.
+
+---
+
+## 13. Why is SCP called secure?
+
+Because SCP uses SSH (Secure Shell) encryption for secure communication and file transfer.
+
+---
+
+## 14. Explain the SCP command used in the practical.
+
+```bash
+scp transfer.txt vagrant@10.0.2.3:/home/vagrant
+```
+
+### Meaning:
+
+* `scp` → secure copy command
+* `transfer.txt` → source file
+* `vagrant` → username of destination VM
+* `10.0.2.3` → IP address of destination VM
+* `/home/vagrant` → destination folder
+
+---
+
+## 15. What is the purpose of the `touch` command?
+
+`touch` is used to create an empty file.
+
+Example:
+
+```bash
+touch transfer.txt
+```
+
+---
+
+## 16. What is Nano editor?
+
+`nano` is a simple command-line text editor in Linux used to create and edit files.
+
+---
+
+## 17. What does the `ls` command do?
+
+`ls` lists all files and folders in the current directory.
+
+---
+
+## 18. What is the purpose of the `cat` command?
+
+`cat` displays the contents of a file.
+
+Example:
+
+```bash
+cat transfer.txt
+```
+
+---
+
+## 19. What does `sudo` mean?
+
+`sudo` means “Super User Do.”
+It runs commands with administrator/root privileges.
+
+---
+
+## 20. What happens if the wrong IP address is used in SCP?
+
+The file transfer will fail because SCP will not be able to connect to the destination VM.
+
+Example errors:
+
+* Connection refused
+* Host unreachable
+* No route to host
+
+
+
+
+
+
